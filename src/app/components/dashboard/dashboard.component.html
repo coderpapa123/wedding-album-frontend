@@ -1,0 +1,18 @@
+<div class="max-w-4xl mx-auto mt-8 p-4 bg-white rounded shadow-md">
+    <h2 class="text-2xl font-bold mb-4">My Albums</h2>
+  
+    <div class="mb-4">
+      <input [(ngModel)]="title" type="text" placeholder="Album Title" class="border p-2 rounded mr-2" [ngModelOptions]="{standalone: true}"/>
+      <input type="file" (change)="onFileChange($event)" class="border p-2 rounded mr-2" />
+      <button (click)="createAlbum()" class="bg-blue-500 text-white px-4 py-2 rounded">Create Album</button>
+    </div>
+  
+    <div class="grid grid-cols-2 gap-4">
+      <div *ngFor="let album of albums" class="p-4 border rounded shadow-md">
+        <img [src]="album.images[0]" alt="{{ album.title }}" class="w-full h-40 object-cover rounded" />
+        <h3 class="text-xl font-semibold mt-2">{{ album.title }}</h3>
+        <button (click)="deleteAlbum(album._id)" class="mt-2 bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+      </div>
+    </div>
+  </div>
+  
