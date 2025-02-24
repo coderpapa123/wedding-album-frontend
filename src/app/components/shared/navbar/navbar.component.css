@@ -1,0 +1,11 @@
+.nav-link {
+        color: white;
+        font-size: 1.125rem; /* Assuming text-lg is 1.125rem */
+        font-weight: 600; /* Assuming font-semibold is 600 */
+        transition: all 0.3s;
+    }
+    
+    .nav-link:hover {
+        color: #f472b6; /* Assuming text-pink-300 is #f472b6 */
+  }
+  

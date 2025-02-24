@@ -1,0 +1,30 @@
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from './api.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  isAuthenticated: boolean =  false;
+
+  constructor(private router: Router, private apiService: ApiService) {}
+
+  async login(email: string, password: string) {
+    try {
+      const response = await this.apiService.login({ email, password});
+      localStorage.setItem('token', response.data.token);
+      this.router.navigate(['/dashboard']);
+      this.isAuthenticated = true
+    } catch (error) {
+      this.isAuthenticated = false;
+      alert('Invalid credentials');
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.isAuthenticated = false;
+    this.router.navigate(['/login']);
+  }
+}

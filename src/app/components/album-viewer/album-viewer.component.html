@@ -1,0 +1,26 @@
+<div class="relative h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden">
+  <!-- Blinking Stars Background -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div *ngFor="let star of stars"
+        class="absolute bg-white rounded-full animate-ping"
+        [ngStyle]="{'width.px': star.size, 'height.px': star.size, 'top.px': star.y, 'left.px': star.x, 'animation-duration': star.speed + 's'}"
+    >
+    </div>
+  </div>
+
+  <!-- Large Image Display -->
+  <div class="relative z-10 w-full h-100 flex items-center justify-center">
+      <img *ngIf="selectedImage" [src]="selectedImage" alt="Selected" class="max-w-full max-h-full rounded-md transition-transform duration-500 scale-110">
+      <p *ngIf="!selectedImage" class="text-lg">Select an Image</p>
+  </div>
+
+  <!-- Image Queue at the Bottom -->
+  <div class="relative z-10 mt-8 p-2 flex gap-4 bg-black/50 rounded-lg">
+      <img *ngFor="let img of images"
+                
+           [src]="img"
+           (click)="selectImage(img)"
+           class="w-20 h-16 border-2 border-white rounded-md cursor-pointer transform transition-transform duration-300 hover:scale-125"
+           >
+  </div>
+</div>

@@ -1,0 +1,18 @@
+@keyframes blink-stars {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+@keyframes move-stars {
+  from { transform: translateY(0px); }
+  to { transform: translateY(-10px); }
+}
+
+.stars {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: white;
+  border-radius: 50%;
+  animation: blink-stars 2s infinite alternate, move-stars 5s infinite alternate ease-in-out;
+}

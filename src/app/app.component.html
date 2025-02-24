@@ -1,1 +1,8 @@
-<router-outlet></router-outlet>
+<!-- Blinking Stars Background -->
+<div class="relative min-h-screen bg-black">
+    <div *ngFor="let star of stars" 
+    [ngStyle]="{'top': star.y + 'vh', 'left': star.x + 'vw', 'animation-delay': star.delay + 's'}"
+    class="stars"></div>
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+</div>

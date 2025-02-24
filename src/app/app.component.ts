@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from "./components/shared/navbar/navbar.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavbarComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'wedding-album';
+  stars = Array.from({ length: 100 }, () => ({
+    x: Math.random() * 100, // Random X position
+    y: Math.random() * 100, // Random Y position
+    delay: Math.random() * 2, // Random delay for blinking effect
+  }));
 }
