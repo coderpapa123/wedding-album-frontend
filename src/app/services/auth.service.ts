@@ -7,6 +7,7 @@ import { ApiService } from './api.service';
 })
 export class AuthService {
   isAuthenticated: boolean =  false;
+  isAdmin: boolean = false;
 
   constructor(private router: Router, private apiService: ApiService) {}
 
@@ -14,6 +15,8 @@ export class AuthService {
     try {
       const response = await this.apiService.login({ email, password});
       localStorage.setItem('token', response.data.token);
+
+      this.isAdmin = response.data.user.role.toLocaleLowerCase() === 'admin';
       this.router.navigate(['/dashboard']);
       this.isAuthenticated = true
     } catch (error) {

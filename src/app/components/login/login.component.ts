@@ -31,7 +31,7 @@ export class LoginComponent {
   }
 
   loginUser() {
-    this.startLoader('Checking the credentials. Please wait')
+    this.startLoader('Checking the credentials. Please wait');
     this.authService.login(this.email, this.password);
     this.stopLoader();
   }

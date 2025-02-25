@@ -1,0 +1,75 @@
+<div class="container mx-auto p-6 text-white">
+    <div class="w-full flex justify-between">
+        <h2 class="text-2xl font-semibold mb-4 text-white">Manage Users</h2>
+        <button
+            (click)="openEditDialog(null)" 
+            class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded mb-2">
+            Add User
+        </button>
+    </div>
+
+    <!-- Search Input -->
+    <input type="text" [(ngModel)]="searchText" placeholder="Search..."
+        class="border border-gray-300 rounded p-2 w-full mb-4 outline-none focus:ring-2 focus:ring-blue-500" />
+
+    <!-- Users Table -->
+    <div class="overflow-x-auto">
+        <table class="w-full border border-gray-300 rounded-lg shadow-md">
+
+            <!-- Table Head -->
+            <thead class="bg-gray-200 text-black">
+                <tr>
+                    <th class="py-2 px-4 text-left">Username</th>
+                    <th class="py-2 px-4 text-left">Email</th>
+                    <th class="py-2 px-4 text-left">Password</th>
+                    <th class="py-2 px-4 text-left">Role</th>
+                    <th class="py-2 px-4 text-center">Actions</th>
+                </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+                <tr *ngFor="let user of filteredUsers()" class="border-b">
+                    <td class="py-2 px-4">
+                        <input type="text" [(ngModel)]="user.username"
+                            class="border border-gray-300 rounded p-2 w-full" />
+                    </td>
+                    <td class="py-2 px-4">
+                        <input type="text" [(ngModel)]="user.email"
+                            class="border border-gray-300 rounded p-2 w-full" />
+                        </td>
+                    <td class="py-2 px-4">
+                        <input type="password" [(ngModel)]="user.password"
+                            class="border border-gray-300 rounded p-2 w-full" />
+                    </td>
+                    <td class="py-2 px-4">
+                        <select [(ngModel)]="user.role" class="border p-2 rounded">
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </td>
+                    <td class="py-2 px-4 text-center">
+                        <button (click)="deleteUser(user._id)"
+                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded mr-2">
+                            Delete
+                        </button>
+                        <button (click)="openEditDialog(user)"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+                            Update
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+  <!-- Include the Edit User Dialog Component -->
+  <app-edit-user-dialog 
+    *ngIf="isModalOpen" 
+    [isOpen]="isModalOpen"
+    [user]="selectedUser" 
+    (close)="closeEditDialog()" 
+    (save)="saveUser($event)">
+  </app-edit-user-dialog>

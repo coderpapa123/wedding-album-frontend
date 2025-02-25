@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class ApiService {
     return axios.post(`${this.API_URL}/auth/register`, data);
   }
 
+  // Albums
   async getAlbums() {
     return axios.get(`${this.API_URL}/albums`, this.getAuthHeader());
   }
@@ -29,10 +31,24 @@ export class ApiService {
     return axios.delete(`${this.API_URL}/albums/${id}`, this.getAuthHeader());
   }
 
+  // Upload Image
   async uploadImage(image: File) {
     const formData = new FormData();
     formData.append("image", image);
     return axios.post(`${this.API_URL}/upload`, formData, this.getAuthHeader());
+  }
+
+  // Users
+  async getUsers() {
+    return axios.get(`${this.API_URL}/users`, this.getAuthHeader());
+  }
+
+  async deleteUser(id: string) {
+    return axios.delete(`${this.API_URL}/users/${id}`, this.getAuthHeader());
+  }
+
+  async updateUser(id: string, user: User) {
+    return axios.put(`${this.API_URL}/users/${id}`, user, this.getAuthHeader());
   }
 
   private getAuthHeader() {
