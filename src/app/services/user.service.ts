@@ -8,12 +8,23 @@ import { User } from '../models/user.model';
 export class UserService {
 
   users: any;
+  private currentUser: User | null ;
 
   constructor(
     private apiService: ApiService
-  ) { }
+  ) {
+    this.currentUser = null;
+   }
 
-  
+
+  getCurrentUser(): User | null {
+    return this.currentUser;
+  }
+
+  setCurrentUser(user: User): void {
+    this.currentUser = user;
+  }
+
   async createUser(data: any) {
     try {
       await this.apiService.register(data);

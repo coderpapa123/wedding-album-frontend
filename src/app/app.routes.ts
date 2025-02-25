@@ -9,6 +9,7 @@ export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'album', component: AlbumViewerComponent, canActivate: [AuthGuard]},
   { path: 'manage-albums', component: AlbumViewerComponent, canActivate: [AuthGuard] },
   { path: 'manage-users', component: ManageUsersComponent, canActivate: [AuthGuard] },
 ];

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,17 @@ export class AuthService {
   isAuthenticated: boolean =  false;
   isAdmin: boolean = false;
 
-  constructor(private router: Router, private apiService: ApiService) {}
+  constructor(
+    private router: Router, 
+    private apiService: ApiService,
+    private userService: UserService
+  ) {}
 
   async login(email: string, password: string) {
     try {
       const response = await this.apiService.login({ email, password});
       localStorage.setItem('token', response.data.token);
+      this.userService.setCurrentUser(response.data.user)
 
       this.isAdmin = response.data.user.role.toLocaleLowerCase() === 'admin';
       this.router.navigate(['/dashboard']);

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoaderComponent } from '../shared/loader/loader.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,12 @@ export class DashboardComponent implements OnInit {
   isLoading: boolean = false;
   loadingMessage: string = "loading";
 
-  constructor(private apiService: ApiService, private router: Router, private authService: AuthService) {
+  constructor(
+    private apiService: ApiService, 
+    private router: Router, 
+    private authService: AuthService,
+    private userService: UserService
+  ) {
     if(!localStorage.getItem('token')) {
        this.router.navigate(['/login']);
     } else {
@@ -67,7 +73,7 @@ export class DashboardComponent implements OnInit {
         imageUrls.push(response.data.imageUrl);
       }
 
-      await this.apiService.createAlbum({ title: this.title, images: imageUrls });
+      await this.apiService.createAlbum({ title: this.title, images: imageUrls, id: this.userService.getCurrentUser()?._id });
       this.title = '';
       this.fileInput.nativeElement.file = null;
       await this.fetchAlbums();
