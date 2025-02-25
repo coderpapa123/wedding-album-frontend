@@ -1,9 +1,10 @@
 <div class="container mx-auto p-6 text-white">
     <div class="w-full flex justify-between">
         <h2 class="text-2xl font-semibold mb-4 text-white">Manage Users</h2>
-        <button
-            (click)="openEditDialog(null)" 
-            class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded mb-2">
+        <button 
+        (click)="openAddUserDialog()"
+        class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded mb-2">
+            
             Add User
         </button>
     </div>
@@ -31,19 +32,20 @@
             <tbody>
                 <tr *ngFor="let user of filteredUsers()" class="border-b">
                     <td class="py-2 px-4">
-                        <input type="text" [(ngModel)]="user.username"
-                            class="border border-gray-300 rounded p-2 w-full" />
+                        <input type="text" [(ngModel)]="user.username" class="border border-gray-300 rounded p-2 w-full"
+                            [ngModelOptions]="{standalone: true}" />
                     </td>
                     <td class="py-2 px-4">
-                        <input type="text" [(ngModel)]="user.email"
-                            class="border border-gray-300 rounded p-2 w-full" />
-                        </td>
+                        <input type="text" [(ngModel)]="user.email" class="border border-gray-300 rounded p-2 w-full"
+                            [ngModelOptions]="{standalone: true}" />
+                    </td>
                     <td class="py-2 px-4">
                         <input type="password" [(ngModel)]="user.password"
-                            class="border border-gray-300 rounded p-2 w-full" />
+                            class="border border-gray-300 rounded p-2 w-full" [ngModelOptions]="{standalone: true}" />
                     </td>
                     <td class="py-2 px-4">
-                        <select [(ngModel)]="user.role" class="border p-2 rounded">
+                        <select [(ngModel)]="user.role" class="border p-2 rounded"
+                            [ngModelOptions]="{standalone: true}">
                             <option value="admin">Admin</option>
                             <option value="user">User</option>
                         </select>
@@ -65,11 +67,7 @@
 </div>
 
 
-  <!-- Include the Edit User Dialog Component -->
-  <app-edit-user-dialog 
-    *ngIf="isModalOpen" 
-    [isOpen]="isModalOpen"
-    [user]="selectedUser" 
-    (close)="closeEditDialog()" 
+<!-- Include the Edit User Dialog Component -->
+<app-edit-user-dialog *ngIf="isModalOpen" [isOpen]="isModalOpen" [user]="selectedUser" (close)="closeEditDialog()"
     (save)="saveUser($event)">
-  </app-edit-user-dialog>
+</app-edit-user-dialog>

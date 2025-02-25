@@ -4,26 +4,25 @@
     <h2 class="text-2xl font-semibold text-gray-800 mb-4">
       {{isNewUser ? 'Add': 'Edit'}} User
     </h2>
-
-
-
-
     <form *ngIf="user">
       <!-- Username Field -->
       <label class="block text-gray-700 mb-2">Username</label>
-      <input type="text" [(ngModel)]="user.username" class="border border-gray-300 rounded p-2 w-full mb-3" />
+      <input type="text" [(ngModel)]="user.username" class="border border-gray-300 rounded p-2 w-full mb-3"
+        [ngModelOptions]="{standalone: true}" autocomplete="one-time-code" />
       <!-- Email Field -->
       <label class="block text-gray-700 mb-2">Email</label>
-      <input type="email" [(ngModel)]="user.email" class="border border-gray-300 rounded p-2 w-full mb-3"
-        [disabled]="isNewUser" />
+      <input type="email" [(ngModel)]="user.email" class="border border-gray-300 rounded p-2 w-full mb-3" disabled="{{!isNewUser}}"
+        [ngModelOptions]="{standalone: true}" />
 
       <!-- Password Field -->
       <label class="block text-gray-700 mb-2">Password</label>
-      <input type="password" [(ngModel)]="user.password" class="border border-gray-300 rounded p-2 w-full mb-3" />
+      <input type="password" [(ngModel)]="user.password" class="border border-gray-300 rounded p-2 w-full mb-3"
+        [ngModelOptions]="{standalone: true}" autocomplete="one-time-code" />
 
       <!-- Role Dropdown -->
       <label class="block text-gray-700 mb-2">Role</label>
-      <select [(ngModel)]="user.role" class="border border-gray-300 rounded p-2 w-full mb-3">
+      <select [(ngModel)]="user.role" class="border border-gray-300 rounded p-2 w-full mb-3"
+        [ngModelOptions]="{standalone: true}">
         <option value="admin">Admin</option>
         <option value="user">User</option>
       </select>
