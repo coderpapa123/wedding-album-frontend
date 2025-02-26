@@ -32,23 +32,17 @@
             <tbody>
                 <tr *ngFor="let user of filteredUsers()" class="border-b">
                     <td class="py-2 px-4">
-                        <input type="text" [(ngModel)]="user.username" class="border border-gray-300 rounded p-2 w-full"
-                            [ngModelOptions]="{standalone: true}" />
+                        {{user.username}}
                     </td>
                     <td class="py-2 px-4">
-                        <input type="text" [(ngModel)]="user.email" class="border border-gray-300 rounded p-2 w-full"
-                            [ngModelOptions]="{standalone: true}" />
+                        {{user.email}}
                     </td>
                     <td class="py-2 px-4">
                         <input type="password" [(ngModel)]="user.password"
-                            class="border border-gray-300 rounded p-2 w-full" [ngModelOptions]="{standalone: true}" />
+                            class="border border-none outline-0 rounded p-2 w-full" [ngModelOptions]="{standalone: true}" disabled/>
                     </td>
                     <td class="py-2 px-4">
-                        <select [(ngModel)]="user.role" class="border p-2 rounded"
-                            [ngModelOptions]="{standalone: true}">
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                        </select>
+                        {{user.role}}
                     </td>
                     <td class="py-2 px-4 text-center">
                         <button (click)="deleteUser(user._id)"
@@ -71,3 +65,5 @@
 <app-edit-user-dialog *ngIf="isModalOpen" [isOpen]="isModalOpen" [user]="selectedUser" (close)="closeEditDialog()"
     (save)="saveUser($event)">
 </app-edit-user-dialog>
+
+<app-loader [isLoading]="isLoading" [message]="loadingMessage"></app-loader>

@@ -23,6 +23,10 @@ export class ApiService {
     return axios.get(`${this.API_URL}/albums`, this.getAuthHeader());
   }
 
+  async getAllAlbums() {
+    return axios.get(`${this.API_URL}/albums/all`, this.getAuthHeader());
+  }
+
   async createAlbum(data: any) {
     return axios.post(`${this.API_URL}/albums`, data, this.getAuthHeader());
   }

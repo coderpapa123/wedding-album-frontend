@@ -1,11 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoaderComponent } from '../shared/loader/loader.component';
 import { UserService } from '../../services/user.service';
+import { AlbumService } from '../../services/album.service';
+import { Album } from '../../models/album.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,41 +15,38 @@ import { UserService } from '../../services/user.service';
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
-  albums: any[] = [];
+  albums: Album[] | null = [];
   title = '';
+  description = '';
   files: FileList | null = null;
   isLoading: boolean = false;
   loadingMessage: string = "loading";
 
   constructor(
-    private apiService: ApiService, 
-    private router: Router, 
+    private albumService: AlbumService,
+    private router: Router,
     private authService: AuthService,
     private userService: UserService
   ) {
-    if(!localStorage.getItem('token')) {
-       this.router.navigate(['/login']);
+    if (!localStorage.getItem('token')) {
+      this.router.navigate(['/login']);
     } else {
-       this.authService.isAuthenticated = true;     
+      this.authService.isAuthenticated = true;
     }
   }
 
   async ngOnInit() {
     this.startLoader('Loading Your Albums...');
-    this.fetchAlbums();
+    await this.albumService.getAlbums();
+    this.albums = this.albumService.albums;
     this.stopLoader();
-  }
-
-  async fetchAlbums() {
-    const response = await this.apiService.getAlbums();
-    this.albums = response.data;
   }
 
   getFiles() {
     const filesElement = this.fileInput.nativeElement as HTMLInputElement;
     if (filesElement.files) {
       this.files = filesElement.files
-    }  
+    }
   }
 
   startLoader(loadingMessage: string) {
@@ -64,30 +62,45 @@ export class DashboardComponent implements OnInit {
   async createAlbum() {
     this.startLoader("Please wait. We are creating the album");
     let imageUrls: string[] = [];
-    this.getFiles(); 
+    this.getFiles();
+    const currentUser = this.userService.getCurrentUser();
 
-    if (this.files && this.files.length > 0 && this.title !== "") {
+    if (
+      this.files && this.files.length > 0 &&
+      this.title !== "" && 
+      this.description !== ""
+    ) {
       for (let i = 0; i < this.files.length; i++) {
         const file = this.files[i];
-        const response = await this.apiService.uploadImage(file);
+        const response = await this.albumService.uploadImage(file);
         imageUrls.push(response.data.imageUrl);
       }
 
-      await this.apiService.createAlbum({ title: this.title, images: imageUrls, id: this.userService.getCurrentUser()?._id });
+      const album: Album = { 
+        title: this.title,
+        description: this.description,
+        images: imageUrls, 
+        user: currentUser?._id, 
+        username: currentUser?.username 
+      }
+
+      await this.albumService.createAlbum(album);
+      this.albums = this.albumService.albums;
       this.title = '';
       this.fileInput.nativeElement.file = null;
-      await this.fetchAlbums();
       this.stopLoader();
     } else {
       this.stopLoader();
     }
   }
 
-  async deleteAlbum(id: string) {
-    this.startLoader("Deleting the album");
-    await this.apiService.deleteAlbum(id);
-    await this.fetchAlbums();
-    this.stopLoader();;
+  async deleteAlbum(id?: string) {
+    if(id) {
+      this.startLoader("Deleting the album");
+      await this.albumService.deleteAlbum(id);
+      this.albums = this.albumService.albums;
+      this.stopLoader();
+    }
   }
 
   navigateToAlbumPage(album: any) {

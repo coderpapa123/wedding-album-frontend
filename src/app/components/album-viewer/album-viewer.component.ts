@@ -15,6 +15,7 @@ export class AlbumViewerComponent implements OnInit, OnDestroy {
   selectedImage: string | null = this.images[0];
   stars: any[] = [];
   blinkClass = "animate-blink";
+  description: string = "A beautiful collection of wedding memories.";
 
   constructor() {}
 

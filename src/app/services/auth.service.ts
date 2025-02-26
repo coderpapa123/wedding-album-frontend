@@ -20,7 +20,8 @@ export class AuthService {
     try {
       const response = await this.apiService.login({ email, password});
       localStorage.setItem('token', response.data.token);
-      this.userService.setCurrentUser(response.data.user)
+      const {role, id, username} = response.data.user;
+      this.userService.setCurrentUser({email, password, role, _id: id, username})
 
       this.isAdmin = response.data.user.role.toLocaleLowerCase() === 'admin';
       this.router.navigate(['/dashboard']);

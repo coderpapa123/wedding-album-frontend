@@ -20,8 +20,8 @@
         [ngModelOptions]="{standalone: true}" autocomplete="one-time-code" />
 
       <!-- Role Dropdown -->
-      <label class="block text-gray-700 mb-2">Role</label>
-      <select [(ngModel)]="user.role" class="border border-gray-300 rounded p-2 w-full mb-3"
+      <label *ngIf="!isNewUser" class="block text-gray-700 mb-2">Role</label>
+      <select *ngIf="!isNewUser" [(ngModel)]="user.role" class="border border-gray-300 rounded p-2 w-full mb-3"
         [ngModelOptions]="{standalone: true}">
         <option value="admin">Admin</option>
         <option value="user">User</option>

@@ -13,7 +13,7 @@
     <ul *ngIf="authService.isAuthenticated" class="hidden md:flex space-x-6">
       <li><a routerLink="/dashboard" class="nav-link">Home</a></li>
       <li *ngIf="authService.isAdmin"><a routerLink="/manage-users" class="nav-link">Manage Users</a></li>
-      <li *ngIf="authService.isAdmin"><a routerLink="/dashboard" class="nav-link">Manage Albums</a></li>
+      <li *ngIf="authService.isAdmin"><a routerLink="/manage-albums" class="nav-link">Manage Albums</a></li>
       <li>
         <button (click)="logout()" class="text-white bg-red-500 px-3 py-1 rounded">Logout</button>
       </li>
